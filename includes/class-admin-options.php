@@ -8,6 +8,8 @@ class Admin_Options extends Abstract_Admin_Page {
 		// Register settings
 		register_setting( $this->get_menu_slug(), 'myplugin_color' );
 
+		register_setting( $this->get_menu_slug(), 'myplugin_text' );
+
 		// Section
 		add_settings_section(
 			'myplugin_options_section',
@@ -19,9 +21,24 @@ class Admin_Options extends Abstract_Admin_Page {
 		add_settings_field(
 			'myplugin_options_color',
 			__( 'Custom color', 'myplugin' ),
-			array( $this, 'render_color_field' ),
+			array( $this, 'render_form_input' ),
 			'myplugin_options',
-			'myplugin_options_section'
+			'myplugin_options_section',
+			array(
+				'option' => 'myplugin_color',
+				'type'   => 'color',
+			)
+		);
+
+		add_settings_field(
+			'myplugin_options_text',
+			__( 'Custom text', 'myplugin' ),
+			array( $this, 'render_form_input' ),
+			'myplugin_options',
+			'myplugin_options_section',
+			array(
+				'option' => 'myplugin_text',
+			)
 		);
 	}
 
@@ -31,14 +48,26 @@ class Admin_Options extends Abstract_Admin_Page {
 		<?php
 	}
 
-	public function render_color_field() {
-		$color = '';
+	public function render_form_input( $args ) {
+		$color  = '';
+		$option = $args['option'];
+		$type   = $args['type'] ?? 'text';
 
-		if ( $this->options->has( 'myplugin_color' ) ) {
-			$color = $this->options->get( 'myplugin_color' );
+		if ( $this->options->has( $option ) ) {
+			$color = $this->options->get( $option );
 		}
 
-		$this->render_form_field( 'myplugin_color', 'myplugin_color', $color, 'color' );
+		$this->render_form_field( $option, $option, $color, $type );
+	}
+
+	public function render_text_field() {
+		$text = '';
+
+		if ( $this->options->has( 'myplugin_text' ) ) {
+			$text = $this->options->get( 'myplugin_text' );
+		}
+
+		$this->render_form_field( 'myplugin_text', 'myplugin_text', $text );
 	}
 
 	protected function get_menu_slug() {

@@ -16,6 +16,8 @@ abstract class Abstract_Admin_Page {
 		add_action( 'admin_menu', array( $page, 'add_admin_page' ) );
 	}
 
+	abstract public function configure();
+
 	public function add_admin_page() {
 		add_submenu_page(
 			$this->get_parent_slug(),
@@ -52,8 +54,6 @@ abstract class Abstract_Admin_Page {
 		<?php
 	}
 
-	abstract public function configure();
-
 	protected function get_capability() {
 		return 'install_plugins';
 	}
@@ -65,5 +65,7 @@ abstract class Abstract_Admin_Page {
 	abstract protected function get_parent_slug();
 
 	abstract protected function get_page_title();
+
+	abstract protected function get_menu_slug();
 
 }

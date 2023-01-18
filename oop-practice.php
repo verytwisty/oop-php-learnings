@@ -31,7 +31,6 @@ function init() {
 
 	$options = new Options_Interface();
 	Admin_Options::register( $options );
-
 }
 
 function init_hooks() {
